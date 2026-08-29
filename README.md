@@ -10,6 +10,7 @@ This repository will grow into a collection of reusable CCNP labs. Each lab incl
 | --- | --- | --- | --- |
 | [01 - IEEE 802.1Q Trunk](labs/01-802.1q-trunk/) | CCNP ENCOR | Configure and verify a static 802.1Q trunk | SW1, SW2, PC1, PC2 |
 | [02 - Secure SSH Management](labs/02-secure-ssh-management/) | CCNP ENCOR | Secure router management with local users, SSHv2, and VTY authentication | R1, PC1 |
+| [03 - Single-Area OSPFv2](labs/03-single-area-ospfv2/) | CCNP ENCOR | Configure area 0 across a three-router full mesh and verify complete route exchange | R1, R2, R3 |
 
 ## Repository structure
 
@@ -20,10 +21,14 @@ ccnp-cml-labs/
     ├── 01-802.1q-trunk/
     │   ├── CCNP_ENCOR_-_802.1Q_Trunk_Practice.yaml
     │   └── CCNP_ENCOR_802.1Q_Trunk_KB.docx
-    └── 02-secure-ssh-management/
-        ├── CCNP_ENCOR_-_Secure_SSH_Management_Practice.yaml
-        ├── CCNP_ENCOR_Secure_SSH_Management_KB.docx
-        └── CCNP_ENCOR_Secure_SSH_Management_Topology.png
+    ├── 02-secure-ssh-management/
+    │   ├── CCNP_ENCOR_-_Secure_SSH_Management_Practice.yaml
+    │   ├── CCNP_ENCOR_Secure_SSH_Management_KB.docx
+    │   └── CCNP_ENCOR_Secure_SSH_Management_Topology.png
+    └── 03-single-area-ospfv2/
+        ├── CCNP_ENCOR_-_Single-Area_OSPFv2_Practice.yaml
+        ├── CCNP_ENCOR_Single_Area_OSPFv2_KB.docx
+        └── CCNP_ENCOR_Single_Area_OSPFv2_Topology.png
 ```
 
 Each numbered lab directory contains:
@@ -79,6 +84,19 @@ The base configuration includes:
 - SSH, local users, RSA keys, and VTY authentication intentionally left unconfigured for the learner.
 
 The exercise covers a privilege-15 local user, a 2048-bit RSA identity key, SSH version 2, local VTY authentication, SSH-only inbound transport, idle-session timeouts, Telnet rejection, operational verification, client compatibility, optional login hardening, and fault-injection practice.
+
+## Lab 03: Single-Area OSPFv2
+
+The third lab provides a full-mesh triangle of three IOSv routers for configuring and verifying OSPFv2 in area 0.
+
+The base configuration includes:
+
+- Three addressed `/30` transit networks connecting R1, R2, and R3.
+- A `/32` Loopback0 address on each router for the OSPF router ID and end-to-end testing.
+- Interface descriptions, enabled routed links, and working direct connectivity.
+- OSPF intentionally left unconfigured for the learner.
+
+The exercise covers OSPF process 10, explicit router IDs, precise network statements, passive loopback interfaces, neighbor and interface verification, LSDB inspection, complete route exchange, source-specific loopback testing, troubleshooting workflows, and optional reconvergence and path-cost challenges.
 
 ## Roadmap
 
