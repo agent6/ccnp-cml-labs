@@ -73,6 +73,7 @@ nodes:
           ip route replace default via 192.168.10.1
           echo "PC1 ready: 192.168.10.10/24, gateway 192.168.10.1" >/dev/console
           echo "Test R1 with: ping -c 4 192.168.10.1" >/dev/console
+          echo "SSH to older IOS: ssh -o KexAlgorithms=+diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa netadmin@192.168.10.1" >/dev/console
           echo "READY" >/dev/console
           exit 0
     cpu_limit: null
@@ -155,8 +156,8 @@ lab:
     REMOTE ACCESS TEST FROM PC1
     ssh netadmin@192.168.10.1
 
-    If a modern SSH client rejects the older IOS host-key algorithm, use:
-    ssh -o HostKeyAlgorithms=+ssh-rsa netadmin@192.168.10.1
+    Modern OpenSSH clients disable the SHA-1 key-exchange and RSA host-key algorithms offered by this older IOS image. If the client reports no matching key exchange method or host key type, use:
+    ssh -o KexAlgorithms=+diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa netadmin@192.168.10.1
 
     TELNET REJECTION CHECK FROM PC1
     nc -vz 192.168.10.1 23
