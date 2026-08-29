@@ -1,0 +1,69 @@
+# CCNP CML Labs
+
+Hands-on Cisco Certified Network Professional (CCNP) practice labs built for Cisco Modeling Labs (CML).
+
+This repository will grow into a collection of reusable CCNP labs. Each lab includes an importable CML topology and a companion guide covering the objectives, configuration tasks, verification commands, troubleshooting workflow, and completion criteria.
+
+## Available labs
+
+| Lab | Exam area | Topic | Nodes |
+| --- | --- | --- | --- |
+| [01 - IEEE 802.1Q Trunk](labs/01-802.1q-trunk/) | CCNP ENCOR | Configure and verify a static 802.1Q trunk | SW1, SW2, PC1, PC2 |
+
+## Repository structure
+
+```text
+ccnp-cml-labs/
+├── README.md
+└── labs/
+    └── 01-802.1q-trunk/
+        ├── CCNP_ENCOR_-_802.1Q_Trunk_Practice.yaml
+        └── CCNP_ENCOR_802.1Q_Trunk_KB.docx
+```
+
+Each numbered lab directory contains:
+
+- A `.yaml` file that can be imported into Cisco CML.
+- A `.docx` lab guide with the exercise, commands, verification steps, and troubleshooting material.
+
+## Requirements
+
+The first lab was created and validated with:
+
+- Cisco Modeling Labs 2.10
+- Cisco IOSvL2 2020 image (`iosvl2-2020`)
+- CML Net-Tools container image (`net-tools-2-10-1-3`)
+
+Image definition names must match those referenced by the imported topology. If your CML server uses different names, select the corresponding installed images after importing the lab.
+
+## Importing a lab into CML
+
+1. Download the desired lab's `.yaml` file.
+2. Sign in to Cisco CML.
+3. Choose **Import Lab** and select the YAML file.
+4. Confirm that each node is mapped to an installed image definition.
+5. Open the companion Word guide before starting the topology.
+6. Start the nodes and complete the configuration and verification tasks.
+
+## Lab 01: IEEE 802.1Q Trunk
+
+The first lab provides a four-node topology for configuring and verifying a static 802.1Q trunk between two IOSvL2 switches.
+
+The base configuration includes:
+
+- VLAN 10 for user hosts.
+- VLAN 20 for server traffic.
+- VLAN 99 for switch management and the native VLAN exercise.
+- PC1 and PC2 addressing.
+- Access-port and management SVI configuration.
+- An intentionally unconfigured inter-switch trunk for the learner to complete.
+
+The lab guide includes configuration examples, operational verification, end-to-end testing, fault-injection exercises, and an ENCOR-level troubleshooting workflow.
+
+## Roadmap
+
+Additional CCNP labs will be added as new topics are completed. The numbered directory format keeps the collection ordered while allowing each lab to remain self-contained.
+
+## Cisco software notice
+
+This repository contains lab definitions and original documentation only. Cisco virtual machine images are not included. Users must obtain and license Cisco software through the appropriate Cisco channels.
