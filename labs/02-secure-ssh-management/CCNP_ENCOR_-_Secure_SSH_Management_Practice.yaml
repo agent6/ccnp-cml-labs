@@ -1,0 +1,188 @@
+annotations: []
+smart_annotations: []
+nodes:
+  - boot_disk_size: null
+    configuration:
+      - name: ios_config.txt
+        content: |-
+          hostname R1
+          no ip domain-lookup
+          no aaa new-model
+          service timestamps debug datetime msec
+          service timestamps log datetime msec
+          interface GigabitEthernet0/0
+           description LAN TO PC1
+           ip address 192.168.10.1 255.255.255.0
+           no shutdown
+          line console 0
+           exec-timeout 0 0
+           logging synchronous
+          end
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n0
+    image_definition: iosv-159-3-m12
+    label: R1
+    node_definition: iosv
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: 250
+    y: 0
+    interfaces:
+      - id: i0
+        label: Loopback0
+        mac_address: null
+        type: loopback
+      - id: i1
+        label: GigabitEthernet0/0
+        mac_address: null
+        type: physical
+        slot: 0
+      - id: i2
+        label: GigabitEthernet0/1
+        mac_address: null
+        type: physical
+        slot: 1
+      - id: i3
+        label: GigabitEthernet0/2
+        mac_address: null
+        type: physical
+        slot: 2
+      - id: i4
+        label: GigabitEthernet0/3
+        mac_address: null
+        type: physical
+        slot: 3
+  - boot_disk_size: null
+    configuration:
+      - name: boot.sh
+        content: |-
+          #!/bin/bash
+          set -e
+          ip link set dev eth0 up
+          ip address flush dev eth0
+          ip address add 192.168.10.10/24 dev eth0
+          ip route replace default via 192.168.10.1
+          echo "PC1 ready: 192.168.10.10/24, gateway 192.168.10.1" >/dev/console
+          echo "Test R1 with: ping -c 4 192.168.10.1" >/dev/console
+          echo "READY" >/dev/console
+          exit 0
+    cpu_limit: null
+    cpus: null
+    data_volume: null
+    hide_links: false
+    id: n1
+    image_definition: net-tools-2-10-1-3
+    label: PC1
+    node_definition: net-tools
+    parameters: {}
+    priority: null
+    pyats:
+      username: null
+      password: null
+      enable_password: null
+    ram: null
+    tags: []
+    x: -250
+    y: 0
+    interfaces:
+      - id: i0
+        label: eth0
+        mac_address: null
+        type: physical
+        slot: 0
+      - id: i1
+        label: eth1
+        mac_address: null
+        type: physical
+        slot: 1
+      - id: i2
+        label: eth2
+        mac_address: null
+        type: physical
+        slot: 2
+      - id: i3
+        label: eth3
+        mac_address: null
+        type: physical
+        slot: 3
+links:
+  - id: l0
+    n1: n1
+    n2: n0
+    i1: i0
+    i2: i1
+    conditioning: {}
+    label: PC1-eth0<->R1-GigabitEthernet0/0
+lab:
+  description: Configure secure remote router management using a local user database,
+    SSH, and VTY line authentication.
+  notes: |-
+    OBJECTIVE
+    Configure secure remote management on R1 using a local user, SSH version 2, and VTY line authentication.
+
+    TOPOLOGY
+    PC1 eth0 --- R1 GigabitEthernet0/0
+
+    BASE CONFIGURATION
+    - R1 Gi0/0: 192.168.10.1/24
+    - PC1 eth0: 192.168.10.10/24
+    - PC1 default gateway: 192.168.10.1
+    - Console access is available with no login requirement.
+    - SSH, local users, RSA keys, and VTY authentication are intentionally not configured.
+
+    REQUIRED CONFIGURATION
+    1. Configure the domain name ccnplab.local.
+    2. Create local user netadmin with privilege level 15 and secret CcnpLab2026!.
+    3. Generate RSA keys with a modulus of at least 2048 bits.
+    4. Force SSH version 2.
+    5. Configure VTY lines 0 through 4 to authenticate against the local user database.
+    6. Permit SSH only on the VTY lines; Telnet must not be accepted.
+    7. Set the VTY idle timeout to 5 minutes.
+    8. Save the completed configuration.
+
+    BASE CONNECTIVITY CHECK FROM PC1
+    ping -c 4 192.168.10.1
+
+    REMOTE ACCESS TEST FROM PC1
+    ssh netadmin@192.168.10.1
+
+    If a modern SSH client rejects the older IOS host-key algorithm, use:
+    ssh -o HostKeyAlgorithms=+ssh-rsa netadmin@192.168.10.1
+
+    TELNET REJECTION CHECK FROM PC1
+    nc -vz 192.168.10.1 23
+    The TCP connection to port 23 should fail after SSH-only transport is configured.
+
+    ROUTER VERIFICATION
+    show ip ssh
+    show ssh
+    show crypto key mypubkey rsa
+    show running-config | include hostname|ip domain-name|username|ip ssh
+    show running-config | section line vty
+
+    SUCCESS CRITERIA
+    - PC1 can ping R1.
+    - SSH version 2 is enabled.
+    - A 2048-bit or stronger RSA key exists.
+    - netadmin authenticates through the local user database.
+    - The VTY lines accept SSH and reject Telnet.
+    - The VTY idle timeout is 5 minutes.
+    - The final running configuration is saved.
+
+    OPTIONAL HARDENING
+    Configure login blocking after repeated failures and add a login banner. Verify the behavior without locking yourself out of the console.
+  title: CCNP ENCOR - Secure SSH Management Practice
+  node_staging:
+    enabled: false
+    start_remaining: true
+    abort_on_failure: false
+  version: 0.3.1

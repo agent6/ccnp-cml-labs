@@ -9,6 +9,7 @@ This repository will grow into a collection of reusable CCNP labs. Each lab incl
 | Lab | Exam area | Topic | Nodes |
 | --- | --- | --- | --- |
 | [01 - IEEE 802.1Q Trunk](labs/01-802.1q-trunk/) | CCNP ENCOR | Configure and verify a static 802.1Q trunk | SW1, SW2, PC1, PC2 |
+| [02 - Secure SSH Management](labs/02-secure-ssh-management/) | CCNP ENCOR | Secure router management with local users, SSHv2, and VTY authentication | R1, PC1 |
 
 ## Repository structure
 
@@ -16,22 +17,28 @@ This repository will grow into a collection of reusable CCNP labs. Each lab incl
 ccnp-cml-labs/
 ├── README.md
 └── labs/
-    └── 01-802.1q-trunk/
-        ├── CCNP_ENCOR_-_802.1Q_Trunk_Practice.yaml
-        └── CCNP_ENCOR_802.1Q_Trunk_KB.docx
+    ├── 01-802.1q-trunk/
+    │   ├── CCNP_ENCOR_-_802.1Q_Trunk_Practice.yaml
+    │   └── CCNP_ENCOR_802.1Q_Trunk_KB.docx
+    └── 02-secure-ssh-management/
+        ├── CCNP_ENCOR_-_Secure_SSH_Management_Practice.yaml
+        ├── CCNP_ENCOR_Secure_SSH_Management_KB.docx
+        └── CCNP_ENCOR_Secure_SSH_Management_Topology.png
 ```
 
 Each numbered lab directory contains:
 
 - A `.yaml` file that can be imported into Cisco CML.
 - A `.docx` lab guide with the exercise, commands, verification steps, and troubleshooting material.
+- A topology image when one is available for the lab.
 
 ## Requirements
 
-The first lab was created and validated with:
+The current labs were created and validated with:
 
 - Cisco Modeling Labs 2.10
 - Cisco IOSvL2 2020 image (`iosvl2-2020`)
+- Cisco IOSv 15.9(3)M12 image (`iosv-159-3-m12`)
 - CML Net-Tools container image (`net-tools-2-10-1-3`)
 
 Image definition names must match those referenced by the imported topology. If your CML server uses different names, select the corresponding installed images after importing the lab.
@@ -59,6 +66,19 @@ The base configuration includes:
 - An intentionally unconfigured inter-switch trunk for the learner to complete.
 
 The lab guide includes configuration examples, operational verification, end-to-end testing, fault-injection exercises, and an ENCOR-level troubleshooting workflow.
+
+## Lab 02: Secure SSH Management
+
+The second lab provides a directly connected router and management client for configuring secure remote CLI access to Cisco IOS.
+
+The base configuration includes:
+
+- R1 address `192.168.10.1/24` on GigabitEthernet0/0.
+- PC1 address `192.168.10.10/24` with R1 as its default gateway.
+- Working console access and IP connectivity.
+- SSH, local users, RSA keys, and VTY authentication intentionally left unconfigured for the learner.
+
+The exercise covers a privilege-15 local user, a 2048-bit RSA identity key, SSH version 2, local VTY authentication, SSH-only inbound transport, idle-session timeouts, Telnet rejection, operational verification, client compatibility, optional login hardening, and fault-injection practice.
 
 ## Roadmap
 
